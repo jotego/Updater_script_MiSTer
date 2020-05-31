@@ -1,0 +1,19 @@
+name: Sync with upstream
+
+on:
+  schedule:
+    - cron:  '0 */2 * * *'
+  repository_dispatch:
+    types: [sync_with_upstream]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Sync with upstream
+      run: ./.github/sync_with_upstream.sh
+      env:
+        NOTIFICATION_API_KEY: ${{ secrets.NOTIFICATION_API_KEY }}

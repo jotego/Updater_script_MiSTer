@@ -14,9 +14,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Copyright 2018-2020 Alessandro "Locutus73" Miele
+# Adapted to jotego cores by José Manuel Barroso Galindo "theypsilon" © 2020
 
 # You can download the latest version of this script from:
-# https://github.com/MiSTer-devel/Updater_script_MiSTer
+# https://github.com/jotego/Updater_script_MiSTer
 
 
 
@@ -167,6 +168,38 @@ MAME_ALT_ROMS="true"
 #otherwise the subdir you prefer (i.e. GAMES_SUBDIR="/Programs").
 GAMES_SUBDIR=""
 
+
+#echo +------------------------------------------------------------------------------+
+echo \|ooooooooooooooooooooooooooooooooo+++++++++++oooooooooooooooooooooooooooooooooo\|
+echo \|oooooooooooooooooooooooooooooooo+.\ .\ \ \ \ .\ .+oooooooooooooooooooooooooooooooooo\|
+echo \|oooooooooooooooooooooooooooooooo\~\ \ \ \ \ \ \ \ \ :o++oooooooooooooooooooooooooooooooo\|
+echo \|ooooooooooooooooooooooooooo+ooo+.\ \ \ \ \ \ \ \ .++.:oo+oo+oooooo+o+oo+oooooo++oooooo\|
+echo \|oooooooooooooooooooooooo+.......\ \ \ \ \ \ \ \ \ \ ..\ .............................:ooo\|
+echo \|ooooooooooooooooooooooo+.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .+o+o\|
+echo \|ooooooooooooooooooooooo:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :o:.+\|
+echo \|oooooooooooooooooooooo+.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .++.:o\|
+echo \|oooooooooooooooooooooo:.....\ \ \ \ \ \ \ \ \ \ \ ...........\ \ \ \ \ \ \ \ \ \ .......\ ....:o\~.+o\|
+echo \|ooooooooooooooooooooooo+++++\~\ \ \ \ \ \ \ \ \ \~+++:++:++++.\ \ \ \ \ \ \ \ \ ++++++++++++++.+oo\|
+echo \|ooooooooooooooooooooooooo+:\~\ \ \ \ \ \ \ \ \ .++.\~:::::::.\ \ \ \ \ \ \ \ \ .o+.\~:::::::::::+oo\|
+echo \|ooooooooooooooooooooooooooo:\ \ \ \ \ \ \ \ \ :o\~.+oooooo+.\ \ \ \ \ \ \ \ \ ++.\~ooooooooooooooo\|
+echo \|oo\~........\~oooooooooooooo+.\ \ \ \ \ \ \ \ .++.:ooooooo+\ \ \ \ \ \ \ \ \ \~o:.+ooooooooooooooo\|
+echo \|o:\ \ \ \ \ \ \ \ \ \~o++ooooooooooo.\ \ \ \ \ \ \ \ \ +o\~.ooooooo+.\ \ \ \ \ \ \ \ .++.\~oooooooooooooooo\|
+echo \|o.\ \ \ \ \ \ \ \ \ :+.:ooooooooo+.\ \ \ \ \ \ \ \ \ \~o+.+ooooooo:\ \ \ \ \ \ \ \ \ \~o:.+oooooooooooooooo\|
+echo \|o.\ \ \ \ \ \ \ \ \ ...\~:::::::..\ \ \ \ \ \ \ \ \ \ .++.\~ooooooo+.\ \ \ \ \ \ \ \ .o+.:ooooooooooooooooo\|
+echo \|o\~\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \~o+..+ooooooo\~\ \ \ \ \ \ \ \ \ +o\~.+ooooooooooooooooo\|
+echo \|o+.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .\~+o+..+ooooooo+.\ \ \ \ \ \ \ \ .o+.+oooooooooooooooooo\|
+echo \|ooo\~.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .:+o+..:+oooooooo.\ \ \ \ \ \ \ \ \ +o..ooooooooooooooooooo\|
+echo \|oooo+:...\ \ \ \ \ \ \ \ \ \ \ \ \ \ ..\~:+++:..:+ooooooooo+\ \ \ \ \ \ \ \ \ .o+.+ooooooooooooooooooo\|
+echo \|oooooo+++::::::::::++++++++\~\~.\~++ooooooooooo+:+:::::+:++.\~oooooooooooooooooooo\|
+echo -n \|oooooooo+++:::::::::\~:\~\~\~\~:++oooooooooooooooooo+::::\~::\~.+oooooooooooooooooooo\|
+#echo \|ooooooooooooo+o+oo++++o+ooooooooooooooooooooooo+o+++o++o+ooooooooooooooooooooo\|
+#echo +------------------------------------------------------------------------------+
+sleep 2 > /dev/null 2>&1
+echo
+echo
+echo Original script by Alessandro \"Locutus73\" Miele
+echo
+
 #========= ADVANCED OPTIONS =========
 #ALLOW_INSECURE_SSL="true" will check if SSL certificate verification (see https://curl.haxx.se/docs/sslcerts.html )
 #is working (CA certificates installed) and when it's working it will use this feature for safe curl HTTPS downloads,
@@ -179,7 +212,7 @@ CURL_RETRY="--connect-timeout 15 --max-time 120 --retry 3 --retry-delay 5"
 MISTER_URL="https://github.com/MiSTer-devel/Main_MiSTer"
 SCRIPTS_PATH="Scripts"
 OLD_SCRIPTS_PATH="#Scripts"
-WORK_PATH="/media/fat/$SCRIPTS_PATH/.mister_updater"
+WORK_PATH="/media/fat/$SCRIPTS_PATH/.mister_updater_jt"
 #Comment (or uncomment) next lines if you don't want (or want) to update/download from additional repositories (i.e. Scaler filters and Gameboy palettes) each time
 ADDITIONAL_REPOSITORIES=(
 #	"https://github.com/MiSTer-devel/Filters_MiSTer/tree/master/Filters|txt|$BASE_PATH/Filters"
@@ -292,11 +325,11 @@ case $? in
 esac
 if [ "$SSL_SECURITY_OPTION" == "" ]
 then
-	if [ "$(grep -v "^#" "${ORIGINAL_SCRIPT_PATH}")" == "curl $CURL_RETRY -ksLf https://github.com/MiSTer-devel/Updater_script_MiSTer/blob/master/mister_updater.sh?raw=true | bash -" ]
+	if [ "$(grep -v "^#" "${ORIGINAL_SCRIPT_PATH}")" == "curl $CURL_RETRY -ksLf https://github.com/jotego/Updater_script_MiSTer/blob/master/mister_updater.sh?raw=true | bash -" ]
 	then
 		echo "Downloading $(sed 's/.*\///' <<< "${ORIGINAL_SCRIPT_PATH}")"
 		echo ""
-		curl $CURL_RETRY $SSL_SECURITY_OPTION -L "https://github.com/MiSTer-devel/Updater_script_MiSTer/blob/master/update.sh?raw=true" -o "$ORIGINAL_SCRIPT_PATH"
+		curl $CURL_RETRY $SSL_SECURITY_OPTION -L "https://github.com/jotego/Updater_script_MiSTer/blob/master/update.sh?raw=true" -o "$ORIGINAL_SCRIPT_PATH"
 	fi
 fi
 
@@ -421,13 +454,21 @@ ERROR_ADDITIONAL_REPOSITORIES_FILE=$(mktemp)
 
 [ "${UPDATE_LINUX}" == "true" ] && SD_INSTALLER_URL="https://github.com/MiSTer-devel/SD-Installer-Win64_MiSTer"
 
-echo "Downloading MiSTer Wiki structure"
-echo ""
+#echo "Downloading MiSTer Wiki structure"
+#echo ""
 #CORE_URLS=$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki"| awk '/user-content-fpga-cores/,/user-content-development/' | grep -io '\(https://github.com/[a-zA-Z0-9./_-]*_MiSTer\)\|\(user-content-[a-zA-Z0-9-]*\)')
-CORE_URLS=$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki"| awk '/user-content-fpga-cores/,/user-content-development/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*[_-]MiSTer)|(user-content-[a-zA-Z0-9-]*)')
-MENU_URL=$(echo "${CORE_URLS}" | grep -io 'https://github.com/[a-zA-Z0-9./_-]*Menu_MiSTer')
-CORE_URLS=$(echo "${CORE_URLS}" |  sed 's/https:\/\/github.com\/[a-zA-Z0-9.\/_-]*Menu_MiSTer//')
-CORE_URLS=${SD_INSTALLER_URL}$'\n'${MISTER_URL}$'\n'${MENU_URL}$'\n'${CORE_URLS}$'\n'"user-content-arcade-cores"$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki/Arcade-Cores-List"| awk '/wiki-content/,/wiki-rightbar/' | grep -io '\(https://github.com/[a-zA-Z0-9./_-]*_MiSTer\)' | awk '!a[$0]++')
+#CORE_URLS=$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki"| awk '/user-content-fpga-cores/,/user-content-development/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*[_-]MiSTer)|(user-content-[a-zA-Z0-9-]*)')
+#MENU_URL=$(echo "${CORE_URLS}" | grep -io 'https://github.com/[a-zA-Z0-9./_-]*Menu_MiSTer')
+#CORE_URLS=$(echo "${CORE_URLS}" |  sed 's/https:\/\/github.com\/[a-zA-Z0-9.\/_-]*Menu_MiSTer//')
+#CORE_URLS=${SD_INSTALLER_URL}$'\n'${MISTER_URL}$'\n'${MENU_URL}$'\n'${CORE_URLS}$'\n'"user-content-arcade-cores"$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki/Arcade-Cores-List"| awk '/wiki-content/,/wiki-rightbar/' | grep -io '\(https://github.com/[a-zA-Z0-9./_-]*_MiSTer\)' | awk '!a[$0]++')
+CORE_URLS="user-content-arcade-cores"$'\n'$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "https://github.com/jotego/jtbin/wiki"| awk '/wiki-content/,/wiki-rightbar/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*_MiSTer)|(https://github.com/jotego/jtbin/[a-zA-Z0-9./_-]*)' | awk '!a[$0]++')
+UPDATE_CHEATS="false"
+UPDATE_LINUX="false"
+MAME_ALT_ROMS="false"
+MISTER_DEVEL_REPOS_URL="https://api.github.com/users/jotego/repos"
+mkdir -p "$WORK_PATH"
+ADDITIONAL_REPOSITORIES=()
+FILTERS_URL=""
 CORE_CATEGORY="-"
 SD_INSTALLER_PATH=""
 REBOOT_NEEDED="false"
@@ -454,7 +495,7 @@ then
 	
 	if [ "${MISTER_DEVEL_REPOS_URL}" != "" ] && [ "${INI_DATETIME_UTC}" == "${LAST_SUCCESSFUL_RUN_INI_DATETIME_UTC}" ] && [ "${UPDATER_VERSION}" == "${LAST_SUCCESSFUL_RUN_UPDATER_VERSION}" ]
 	then
-		echo "Downloading MiSTer-devel updates"
+		echo "Downloading ${MISTER_DEVEL_REPOS_URL} updates"
 		echo ""
 		API_PAGE=1
 		API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//')
@@ -513,13 +554,16 @@ then
 fi
 
 function checkCoreURL {
+	[[ ${CORE_URL} =~ ^([a-zA-Z]+://)?github.com(:[0-9]+)?/([a-zA-Z0-9_-]*)/.*$ ]] || true
+	local DOMAIN_URL=${BASH_REMATCH[3]}
+
 	echo "Checking $(sed 's/.*\/// ; s/_MiSTer//' <<< "${CORE_URL}")"
 	[ "${SSH_CLIENT}" != "" ] && echo "URL: $CORE_URL"
 	# if echo "$CORE_URL" | grep -qE "SD-Installer"
 	# then
 	# 	RELEASES_URL="$CORE_URL"
 	# else
-	# 	RELEASES_URL=https://github.com$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$CORE_URL" | grep -oi '/MiSTer-devel/[a-zA-Z0-9./_-]*/tree/[a-zA-Z0-9./_-]*/releases' | head -n1)
+	# 	RELEASES_URL=https://github.com$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$CORE_URL" | grep -oi '/'${DOMAIN_URL}'/[a-zA-Z0-9./_-]*/tree/[a-zA-Z0-9./_-]*/releases' | head -n1)
 	# fi
 	case "$CORE_URL" in
 		*SD-Installer*)
@@ -528,17 +572,20 @@ function checkCoreURL {
 		*Minimig*)
 			RELEASES_URL="${CORE_URL}/file-list/MiSTer/releases"
 			;;
+		*jotego/jtbin*)
+			RELEASES_URL="https://github.com/jotego/jtbin/file-list/master/mister/$(basename ${CORE_URL})/releases"
+			;;
 		*)
 			RELEASES_URL="${CORE_URL}/file-list/master/releases"
 			;;
 	esac
 	RELEASES_HTML=""
 	RELEASES_HTML=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${RELEASES_URL}")
-	RELEASE_URLS=$(echo ${RELEASES_HTML} | grep -oE '/MiSTer-devel/[a-zA-Z0-9./_-]*_[0-9]{8}[a-zA-Z]?(\.rbf|\.rar|\.zip)?')
+	RELEASE_URLS=$(echo ${RELEASES_HTML} | grep -oE '/'${DOMAIN_URL}'/[a-zA-Z0-9./_-]*_[0-9]{8}[a-zA-Z]?(\.rbf|\.rar|\.zip)?')
 	
 	CORE_HAS_MRA="false"
-	#if  [ "${CORE_CATEGORY}" == "arcade-cores" ] && [ "${MAME_ARCADE_ROMS}" == "true" ] && { echo "${RELEASES_HTML}" | grep -qE '/MiSTer-devel/[a-zA-Z0-9./_%&#;!()-]*\.mra'; }
-	if  [ "${CORE_CATEGORY}" == "arcade-cores" ] && [ "${MAME_ARCADE_ROMS}" == "true" ] && [[ "${RELEASES_HTML}" =~ /MiSTer-devel/[a-zA-Z0-9./_%\&#\;!()-]*\.mra ]]
+	#if  [ "${CORE_CATEGORY}" == "arcade-cores" ] && [ "${MAME_ARCADE_ROMS}" == "true" ] && { echo "${RELEASES_HTML}" | grep -qE '/'${DOMAIN_URL}'/[a-zA-Z0-9./_%&#;!()-]*\.mra'; }
+	if  [ "${CORE_CATEGORY}" == "arcade-cores" ] && [ "${MAME_ARCADE_ROMS}" == "true" ] && [[ "${RELEASES_HTML}" =~ /${DOMAIN_URL}/[a-zA-Z0-9./_%\&#\;!()-]*\.mra ]]
 	then
 		CORE_HAS_MRA="true"
 	fi
@@ -845,6 +892,9 @@ function checkCoreURL {
 }
 
 function checkAdditionalRepository {
+	[[ ${ADDITIONAL_FILES_URL} =~ ^([a-zA-Z]+://)?github.com(:[0-9]+)?/([a-zA-Z0-9_-]*)/.*$ ]] || true
+	local DOMAIN_URL=${BASH_REMATCH[3]}
+
 	OLD_IFS="$IFS"
 	IFS="|"
 	PARAMS=($ADDITIONAL_REPOSITORY)
@@ -854,7 +904,7 @@ function checkAdditionalRepository {
 	IFS="$OLD_IFS"
 	
 	echo "Checking $(echo $ADDITIONAL_FILES_URL | sed 's/.*\///g' | awk '{ print toupper( substr( $0, 1, 1 ) ) substr( $0, 2 ); }')"
-	if ! [[ "${ADDITIONAL_FILES_URL}" == https://github.com/MiSTer-devel/* ]] || [ "$CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER" == "" ] || [[ "${ADDITIONAL_FILES_URL^^}" =~ ${CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER_REGEX^^} ]]
+	if ! [[ "${ADDITIONAL_FILES_URL}" == https://github.com/${DOMAIN_URL}/* ]] || [ "$CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER" == "" ] || [[ "${ADDITIONAL_FILES_URL^^}" =~ ${CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER_REGEX^^} ]]
 	then
 		if [ ! -d "$CURRENT_DIR" ]
 		then
