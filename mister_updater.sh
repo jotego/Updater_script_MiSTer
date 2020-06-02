@@ -464,7 +464,7 @@ ERROR_ADDITIONAL_REPOSITORIES_FILE=$(mktemp)
 CORE_URLS="user-content-arcade-cores"$'\n'$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "https://github.com/jotego/jtbin/wiki"| awk '/wiki-content/,/wiki-rightbar/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*_MiSTer)|(https://github.com/jotego/jtbin/[a-zA-Z0-9./_-]*)' | awk '!a[$0]++')
 UPDATE_CHEATS="false"
 UPDATE_LINUX="false"
-MAME_ALT_ROMS="false"
+MRA_ALT_URL="https://github.com/jotego/jtbin/mister/MRA-Alternatives_MiSTer"
 MISTER_DEVEL_REPOS_URL="https://api.github.com/users/jotego/repos"
 mkdir -p "$WORK_PATH"
 ADDITIONAL_REPOSITORIES=()
