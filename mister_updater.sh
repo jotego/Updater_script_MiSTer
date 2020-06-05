@@ -249,6 +249,10 @@ ORIGINAL_SCRIPT_PATH="$0"
 if [ "$ORIGINAL_SCRIPT_PATH" == "bash" ]
 then
 	ORIGINAL_SCRIPT_PATH=$(ps | grep "^ *$PPID " | grep -o "[^ ]*$")
+	if [ "$ORIGINAL_SCRIPT_PATH" == "-" ] ; then
+		PARENT_PPID=$(ps -o pid,ppid | grep "^ *$PPID" | grep -o "[^ ]* *$")
+		ORIGINAL_SCRIPT_PATH=$(ps | grep "^ *$PARENT_PPID " | grep -o "[^ ]*$")
+	fi
 fi
 INI_PATH=${ORIGINAL_SCRIPT_PATH%.*}.ini
 if [ -f $INI_PATH ]
