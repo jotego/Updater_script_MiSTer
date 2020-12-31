@@ -37,7 +37,7 @@ REPOSITORIES_FILTER="ZZZZZZZZZ"
 UPDATE_CHEATS="false"
 UPDATE_LINUX="true"
 ```
-- you can make an update_all.sh with its [update_all.sh](https://github.com/jotego/Updater_script_MiSTer/blob/master/examples/update_all.ini?raw=true) using these settings:
+- you can make an update_all.sh with its [update_all.ini](https://github.com/jotego/Updater_script_MiSTer/blob/master/examples/update_all.ini?raw=true) using these settings:
 ```
 UPDATE_CHEATS="true"
 UPDATE_LINUX="true"
