@@ -21,6 +21,7 @@
 
 
 
+# Version 4.0.11 - 2021-02-21 - Removied curl and folder creation errors (thanks to theypsilon and cdewit).
 # Version 4.0.10 - 2020-12-07 - Optimised repositories main branch detection through a single API call.
 # Version 4.0.9 - 2020-06-25 - Download timeout increased from 120 seconds to 180.
 # Version 4.0.8 - 2020-06-24 - Updated checkAdditionalRepository in order to reflect a change in GitHub HTML code.
@@ -244,7 +245,7 @@ TO_BE_DELETED_EXTENSION="to_be_deleted"
 
 #========= CODE STARTS HERE =========
 
-UPDATER_VERSION="4.0.10"
+UPDATER_VERSION="4.0.11"
 echo "MiSTer Updater version ${UPDATER_VERSION}"
 echo ""
 
@@ -849,15 +850,23 @@ function checkCoreURL {
 							"Minimig")
 								CORE_INTERNAL_NAME="Amiga"
 								;;
-							"Apple-I"|"C64"|"PDP1"|"NeoGeo"|"AY-3-8500")
+							"Apple-I"|"C64"|"PDP1"|"NeoGeo"|"AY-3-8500"|"EDSAC"|"Galaksija")
 								CORE_INTERNAL_NAME="${BASE_FILE_NAME}"
 								;;
 							"SharpMZ")
 								CORE_INTERNAL_NAME="SHARP MZ SERIES"
 								;;
+							"Amstrad-PCW")
+								CORE_INTERNAL_NAME="Amstrad PCW"
+								;;
 							*)
 								CORE_SOURCE_URL="$(echo "https://github.com$MAX_RELEASE_URL" | sed 's/releases.*//g')${BASE_FILE_NAME}.sv"
-								CORE_INTERNAL_NAME="$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "${CORE_SOURCE_URL}?raw=true" | awk '/CONF_STR[^=]*=/,/;/' | grep -oE -m1 '".*?;' | sed 's/[";]//g')"
+								CORE_INTERNAL_NAME="$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "${CORE_SOURCE_URL}?raw=true" 2> /tmp/core_internal_name_error | awk '/CONF_STR[^=]*=/,/;/' | grep -oE -m1 '"[^;]*?;' | sed 's/[";]//g')"
+								if [ "$CORE_INTERNAL_NAME" == "" ]
+								then
+									cat /tmp/core_internal_name_error
+									echo "Couldn't create directory for ${BASE_FILE_NAME}"
+								fi
 								;;
 						esac
 						if [ "$CORE_INTERNAL_NAME" != "" ]
