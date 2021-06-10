@@ -245,7 +245,7 @@ REBOOT_PAUSE=0  # in seconds
 TEMP_PATH="/tmp"
 TO_BE_DELETED_EXTENSION="to_be_deleted"
 
-
+DOWNLOAD_BETA_CORES="false"
 
 #========= CODE STARTS HERE =========
 
@@ -473,11 +473,15 @@ ERROR_ADDITIONAL_REPOSITORIES_FILE=$(mktemp)
 #MENU_URL=$(echo "${CORE_URLS}" | grep -io 'https://github.com/[a-zA-Z0-9./_-]*Menu_MiSTer')
 #CORE_URLS=$(echo "${CORE_URLS}" |  sed 's/https:\/\/github.com\/[a-zA-Z0-9.\/_-]*Menu_MiSTer//')
 #CORE_URLS=${SD_INSTALLER_URL}$'\n'${MISTER_URL}$'\n'${MENU_URL}$'\n'${CORE_URLS}$'\n'"user-content-arcade-cores"$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "$MISTER_URL/wiki/Arcade-Cores-List"| awk '/wiki-content/,/wiki-rightbar/' | grep -io '\(https://github.com/[a-zA-Z0-9./_-]*_MiSTer\)' | awk '!a[$0]++')
-CORE_URLS="user-content-arcade-cores"$'\n'$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "https://github.com/jotego/jtbin/wiki"| awk '/wiki-content/,/wiki-rightbar/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*_MiSTer)|(https://github.com/jotego/jtbin/[a-zA-Z0-9./_-]*)' | awk '!a[$0]++')
+CORE_URLS="user-content-arcade-cores"$'\n'$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "https://github.com/JTFPGA/JTSTABLE/wiki"| awk '/wiki-content/,/wiki-rightbar/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*_MiSTer)|(https://github.com/JTFPGA/JTSTABLE/[a-zA-Z0-9./_-]*)' | awk '!a[$0]++')
+if [[ "${DOWNLOAD_BETA_CORES}" == "true" ]] ; then
+	CORE_URLS="${CORE_URLS}"$'\n'$(curl $CURL_RETRY $SSL_SECURITY_OPTION -sSLf "https://github.com/jotego/jtbin/wiki"| awk '/wiki-content/,/wiki-rightbar/' | grep -ioE '(https://github.com/[a-zA-Z0-9./_-]*_MiSTer)|(https://github.com/jotego/jtbin/[a-zA-Z0-9./_-]*)' | awk '!a[$0]++')
+fi
 UPDATE_CHEATS="false"
 UPDATE_LINUX="false"
-MRA_ALT_URL="https://github.com/jotego/jtbin/mister/MRA-Alternatives_MiSTer"
-MISTER_DEVEL_REPOS_URL="https://api.github.com/users/jotego/repos"
+MRA_ALT_URL="https://github.com/JTFPGA/JTSTABLE/mister/MRA-Alternatives_MiSTer"
+MRA_ALT_BETA_URL="https://github.com/jotego/jtbin/mister/MRA-Alternatives_MiSTer"
+MISTER_DEVEL_REPOS_URL="https://api.github.com/orgs/JTFPGA/repos"
 mkdir -p "$WORK_PATH"
 ADDITIONAL_REPOSITORIES=()
 FILTERS_URL=""
@@ -558,8 +562,49 @@ until [ "${API_RESPONSE}" == "" ]; do
 	done
 	API_PAGE=$((API_PAGE+1))
 	#API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//')
-	API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)|("default_branch": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//; s/"default_branch": "//')
+	#API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)|("default_branch": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//; s/"default_branch": "//')
+	API_RESPONSE=""
 done
+
+if [[ "${DOWNLOAD_BETA_CORES}" == "true" ]] ; then
+
+	MISTER_DEVEL_REPOS_URL="https://api.github.com/users/jotego/repos"
+
+	echo "Downloading ${MISTER_DEVEL_REPOS_URL} updates and main branches"
+	echo ""
+
+	API_PAGE=1
+	#API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//')
+	API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)|("default_branch": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//; s/"default_branch": "//')
+
+	until [ "${API_RESPONSE}" == "" ]; do
+		for API_RESPONSE_LINE in $API_RESPONSE; do
+			if [[ "${API_RESPONSE_LINE}" =~ [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} ]]
+			then
+				REPO_UPDATE_DATETIME_UTC="${API_RESPONSE_LINE}"
+			elif [[ "${API_RESPONSE_LINE}" =~ https: ]]
+			then
+				REPO_NAME="${API_RESPONSE_LINE##*/}"
+				if [ "${MISTER_DEVEL_REPOS_URL}" != "" ] && [ "${INI_DATETIME_UTC}" == "${LAST_SUCCESSFUL_RUN_INI_DATETIME_UTC}" ] && [ "${UPDATER_VERSION}" == "${LAST_SUCCESSFUL_RUN_UPDATER_VERSION}" ]
+				then
+					if [[ "${LAST_SUCCESSFUL_RUN_DATETIME_UTC}" < "${REPO_UPDATE_DATETIME_UTC}" ]]
+					then
+						CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER="${CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER} ${REPO_NAME}"
+					fi
+				fi
+			else
+				REPO_DEFAULT_BRANCH="${API_RESPONSE_LINE}"
+				CORE_DEFAULT_BRANCHES["${REPO_NAME}"]="${REPO_DEFAULT_BRANCH}"
+			fi
+		done
+		API_PAGE=$((API_PAGE+1))
+		#API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//')
+		#API_RESPONSE=$(curl ${CURL_RETRY} ${SSL_SECURITY_OPTION} -sSLf "${MISTER_DEVEL_REPOS_URL}?per_page=100&page=${API_PAGE}" | grep -oE '("svn_url": "[^"]*)|("updated_at": "[^"]*)|("default_branch": "[^"]*)' | sed 's/"svn_url": "//; s/"updated_at": "//; s/"default_branch": "//')
+		API_RESPONSE=""
+	done
+
+fi
+
 if [ "${MISTER_DEVEL_REPOS_URL}" != "" ] && [ "${INI_DATETIME_UTC}" == "${LAST_SUCCESSFUL_RUN_INI_DATETIME_UTC}" ] && [ "${UPDATER_VERSION}" == "${LAST_SUCCESSFUL_RUN_UPDATER_VERSION}" ]
 then
 	if [ "${CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER}" != "" ]
@@ -585,6 +630,8 @@ function checkCoreURL {
 	[[ ${CORE_URL} =~ ^([a-zA-Z]+://)?github.com(:[0-9]+)?/([a-zA-Z0-9_-]*)/.*$ ]] || true
 	local DOMAIN_URL=${BASH_REMATCH[3]}
 
+	BETA_CORES="false"
+
 	echo "Checking $(sed 's/.*\/// ; s/_MiSTer//' <<< "${CORE_URL}")"
 	[ "${SSH_CLIENT}" != "" ] && echo "URL: $CORE_URL"
 	# if echo "$CORE_URL" | grep -qE "SD-Installer"
@@ -599,8 +646,12 @@ function checkCoreURL {
 		*SD-Installer*)
 			RELEASES_URL="$CORE_URL"
 			;;
+		*JTFPGA/JTSTABLE*)
+			RELEASES_URL="https://github.com/JTFPGA/JTSTABLE/file-list/master/mister/$(basename ${CORE_URL})/releases"
+			;;
 		*jotego/jtbin*)
 			RELEASES_URL="https://github.com/jotego/jtbin/file-list/master/mister/$(basename ${CORE_URL})/releases"
+			BETA_CORES="true"
 			;;
 		*)
 			RELEASES_URL="${CORE_URL}/file-list/${BRANCH_NAME}/releases"
@@ -661,6 +712,9 @@ function checkCoreURL {
 	if [ "$CORE_CATEGORY" == "arcade-cores" ] && [ $REMOVE_ARCADE_PREFIX == "true" ]
 	then
 		FILE_NAME=$(echo "$FILE_NAME" | sed 's/Arcade-//gI')
+	fi
+	if [[ "${CORE_URL}" =~ MRA-Alternatives_MiSTer ]] && [[ "${BETA_CORES}" == "true" ]] ; then
+		FILE_NAME="Beta${FILE_NAME}"
 	fi
 	BASE_FILE_NAME=$(echo "$FILE_NAME" | sed 's/_[0-9]\{8\}.*//g')
 	
@@ -1118,6 +1172,15 @@ then
 	then
 		checkCoreURL
 	fi
+	
+	if [[ "${DOWNLOAD_BETA_CORES}" == "true" ]] ; then
+		CORE_URL="${MRA_ALT_BETA_URL}"
+		if [ "$CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER" == "" ] || [[ "${CORE_URL^^}" =~ ${CORE_CATEGORIES_LAST_SUCCESSFUL_RUN_FILTER_REGEX^^} ]]
+		then
+			checkCoreURL
+		fi
+	fi
+
 fi
 
 if [ "$FILTERS_URL" != "" ]
